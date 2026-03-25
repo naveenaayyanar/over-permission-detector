@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PermGuard AI — Over-Permission Detection</title>
+  <link rel="stylesheet" href="css/main.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body class="auth-page">
+  <div class="bg-grid"></div>
+  <div class="bg-orb orb1"></div>
+  <div class="bg-orb orb2"></div>
+
+  <nav class="top-nav">
+    <div class="logo">
+      <span class="logo-icon">🛡️</span>
+      <span class="logo-text">PermGuard<span class="accent">AI</span></span>
+    </div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#about">About</a>
+      <button class="btn-outline" onclick="showTab('login')">Login</button>
+    </div>
+  </nav>
+
+  <main class="hero-section">
+    <div class="hero-content">
+      <div class="hero-badge">🔬 AI-Powered Security Analysis</div>
+      <h1 class="hero-title">Detect <span class="gradient-text">Over-Permissions</span><br>Before They Harm You</h1>
+      <p class="hero-sub">Upload any Android APK. Our AI engine analyzes permissions, detects suspicious combinations, and generates a comprehensive risk report — instantly.</p>
+
+      <div class="auth-card" id="authCard">
+        <div class="tab-bar">
+          <button class="tab active" id="tabLogin" onclick="showTab('login')">Login</button>
+          <button class="tab" id="tabRegister" onclick="showTab('register')">Register</button>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <div id="loginForm" class="form-section">
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="loginEmail" placeholder="you@example.com" class="form-input"/>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="loginPassword" placeholder="••••••••" class="form-input"/>
+          </div>
+          <div class="form-row">
+            <label class="checkbox-label"><input type="checkbox"> Remember me</label>
+            <a href="#" class="link-small" onclick="showForgotPassword();return false;">Forgot password?</a>
+          </div>
+          <button class="btn-primary full-width" onclick="handleLogin()">
+            <span>Sign In</span> <span>→</span>
+          </button>
+          <div class="divider"><span>or continue as</span></div>
+          <button class="btn-demo" onclick="loginAsDemo('user')">👤 Demo User</button>
+          <button class="btn-demo" onclick="loginAsDemo('admin')" style="margin-top:8px">🔑 Demo Admin</button>
+        </div>
+
+        <!-- REGISTER FORM -->
+        <div id="registerForm" class="form-section hidden">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="regName" placeholder="John Doe" class="form-input"/>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="regEmail" placeholder="you@example.com" class="form-input"/>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="regPassword" placeholder="Create a strong password" class="form-input"/>
+          </div>
+          <div class="form-group">
+            <label>Role</label>
+            <select class="form-input" id="regRole">
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          <button class="btn-primary full-width" onclick="handleRegister()">
+            <span>Create Account</span> <span>→</span>
+          </button>
+        </div>
+
+        <div id="authMsg" class="auth-msg hidden"></div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="phone-mockup">
+        <div class="phone-screen">
+          <div class="perm-list">
+            <div class="perm-item safe">📍 Location <span class="badge green">Safe</span></div>
+            <div class="perm-item warning">📷 Camera <span class="badge yellow">Review</span></div>
+            <div class="perm-item danger">🎙️ Microphone <span class="badge red">Risk</span></div>
+            <div class="perm-item danger">📱 SMS <span class="badge red">Risk</span></div>
+            <div class="perm-item warning">📞 Contacts <span class="badge yellow">Review</span></div>
+            <div class="perm-item safe">🌐 Internet <span class="badge green">Safe</span></div>
+          </div>
+          <div class="risk-meter">
+            <div class="risk-label">Risk Score</div>
+            <div class="risk-bar-outer">
+              <div class="risk-bar-inner"></div>
+            </div>
+            <div class="risk-value">74 / 100 — High Risk</div>
+          </div>
+        </div>
+      </div>
+      <div class="float-card card1">🤖 AI Analyzed</div>
+      <div class="float-card card2">⚡ 2.3s scan</div>
+    </div>
+  </main>
+
+  <section class="features-section" id="features">
+    <h2 class="section-title">6 Powerful Modules</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feat-icon">🔐</div>
+        <h3>User Authentication</h3>
+        <p>Secure login & registration with role-based access for Users and Admins.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">📦</div>
+        <h3>APK Upload</h3>
+        <p>Upload Android APK files securely. Format validation & server-side storage.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">🔍</div>
+        <h3>Permission Extraction</h3>
+        <p>Extracts AndroidManifest.xml and classifies permissions: Normal, Dangerous, Special.</p>
+      </div>
+      <div class="feature-card highlight-card">
+        <div class="feat-icon">🤖</div>
+        <h3>AI Detection Engine</h3>
+        <p>ML model analyzes app category vs. permission set. Detects unnecessary & suspicious combinations.</p>
+        <div class="card-badge">Core AI</div>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">⚠️</div>
+        <h3>Risk Assessment</h3>
+        <p>Generates risk score 0–100. Classifies apps as Safe, Medium Risk, or High Risk.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">📊</div>
+        <h3>Reports & Dashboard</h3>
+        <p>Permission charts, risk dashboard, and downloadable PDF/HTML reports.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>PermGuard AI — Over-Permission Detection System</p>
+  </footer>
+
+  <!-- FORGOT PASSWORD MODAL -->
+  <div id="forgotModal" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;">
+    <div style="background:var(--card);border:1px solid var(--card-border);border-radius:var(--radius);padding:32px;max-width:400px;width:90%;box-shadow:var(--shadow);">
+      <h3 style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;margin-bottom:8px;">Reset Password</h3>
+      <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:20px;">Enter your email and we'll set a new password for your account.</p>
+      <div id="forgotStep1">
+        <div class="form-group" style="margin-bottom:16px;">
+          <label>Email Address</label>
+          <input type="email" id="forgotEmail" placeholder="you@example.com" class="form-input"/>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button class="btn-outline" style="flex:1;" onclick="closeForgotPassword()">Cancel</button>
+          <button class="btn-primary" style="flex:1;" onclick="handleForgotStep1()"><span>Continue</span><span>→</span></button>
+        </div>
+      </div>
+      <div id="forgotStep2" style="display:none;">
+        <div class="form-group" style="margin-bottom:12px;">
+          <label>New Password</label>
+          <input type="password" id="forgotNewPass" placeholder="At least 6 characters" class="form-input"/>
+        </div>
+        <div class="form-group" style="margin-bottom:16px;">
+          <label>Confirm Password</label>
+          <input type="password" id="forgotConfirmPass" placeholder="Repeat new password" class="form-input"/>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button class="btn-outline" style="flex:1;" onclick="closeForgotPassword()">Cancel</button>
+          <button class="btn-primary" style="flex:1;" onclick="handleForgotStep2()"><span>Reset</span><span>✓</span></button>
+        </div>
+      </div>
+      <div id="forgotMsg" class="auth-msg hidden" style="margin-top:12px;"></div>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    function showForgotPassword() {
+      const modal = document.getElementById('forgotModal');
+      modal.style.display = 'flex';
+      document.getElementById('forgotStep1').style.display = 'block';
+      document.getElementById('forgotStep2').style.display = 'none';
+      document.getElementById('forgotEmail').value = '';
+      document.getElementById('forgotMsg').classList.add('hidden');
+    }
+    function closeForgotPassword() {
+      document.getElementById('forgotModal').style.display = 'none';
+    }
+    function showForgotMsg(msg, type='error') {
+      const el = document.getElementById('forgotMsg');
+      el.textContent = msg; el.className = `auth-msg ${type}`;
+      el.classList.remove('hidden');
+    }
+    function handleForgotStep1() {
+      const email = document.getElementById('forgotEmail').value.trim();
+      if (!email) { showForgotMsg('Please enter your email.'); return; }
+      const users = getUsers();
+      const user = users.find(u => u.email === email);
+      if (!user) { showForgotMsg('No account found with that email.'); return; }
+      document.getElementById('forgotStep1').style.display = 'none';
+      document.getElementById('forgotStep2').style.display = 'block';
+      document.getElementById('forgotMsg').classList.add('hidden');
+    }
+    function handleForgotStep2() {
+      const email = document.getElementById('forgotEmail').value.trim();
+      const newPass = document.getElementById('forgotNewPass').value;
+      const confirmPass = document.getElementById('forgotConfirmPass').value;
+      if (!newPass || newPass.length < 6) { showForgotMsg('Password must be at least 6 characters.'); return; }
+      if (newPass !== confirmPass) { showForgotMsg('Passwords do not match.'); return; }
+      const users = getUsers();
+      const idx = users.findIndex(u => u.email === email);
+      if (idx === -1) { showForgotMsg('Account not found.'); return; }
+      users[idx].password = newPass;
+      saveUsers(users);
+      showForgotMsg('Password reset successfully! You can now sign in.', 'success');
+      setTimeout(() => { closeForgotPassword(); }, 1800);
+    }
+    // Close modal on backdrop click
+    document.getElementById('forgotModal').addEventListener('click', function(e) {
+      if (e.target === this) closeForgotPassword();
+    });
+  </script>
+</body>
+</html>
